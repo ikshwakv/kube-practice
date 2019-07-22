@@ -2,8 +2,7 @@ pipeline {
   agent any
   tools { 
         maven 'Maven'
-        jdk 'JAVA_HOME'
-  }
+       }
   stages {
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace... */
@@ -18,20 +17,11 @@ pipeline {
         sh 'echo whoami'
       }
     }
-    stage('Push image to private docker-hub') {
+      stage('Push image to aws ecr'){
       steps {
-        withDockerRegistry([credentialsId: 'docker-hub', url: "https://index.docker.io/v1/"]) {
-          sh 'sudo docker login https://index.docker.io/v1/ -u=anil9848 -p=Password@12345'
-          sh 'sudo /usr/bin/docker push anil9848/account-service:latest'
-        }
-      }
-    }
-    stage('Push image to aws ecr'){
-      steps {
-       withDockerRegistry(credentialsId: 'ecr:us-east-1:aws-credentials', url: 'http://941609391146.dkr.ecr.us-east-1.amazonaws.com/example') {
-       sh 'docker tag anil9848/account-service:latest 941609391146.dkr.ecr.us-east-1.amazonaws.com/example'
-       sh 'docker tag anil9848/account-service:latest 941609391146.dkr.ecr.us-east-1.amazonaws.com/example'
-         sh 'docker push 941609391146.dkr.ecr.us-east-1.amazonaws.com/example'
+       withDockerRegistry(credentialsId: 'ecr:us-east-1:aws-credentials', url: 'http://651445660648.dkr.ecr.us-east-1.amazonaws.com/sample') {
+       sh 'docker tag anil9848/account-service:latest 651445660648.dkr.ecr.us-east-1.amazonaws.com/sample'
+         sh 'docker push 651445660648.dkr.ecr.us-east-1.amazonaws.com/sample'
 }
       }
     }
