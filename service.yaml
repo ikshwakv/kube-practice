@@ -18,7 +18,7 @@ spec:
 
   selector:
     app: account-service
-  type: LoadBalancer
+  type: NodePort
   
   
   
